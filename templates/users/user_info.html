@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card my-4">
+    <div class="card-body">
+        <p><h4 class="display-4">{{user.first_name}} {{user.last_name}}</h4></p>
+        <p>Username: {{user.username}}</p>   
+        <p>Email: {{user.email}}</p>
+        <form style="display:inline">
+            <button class="btn btn-success" formmethod="GET" formaction="/users/{{user.username}}/feedback/new"> Add
+                Feedback</button>
+            <button class="btn btn-danger" formmethod="POST" formaction="/users/{{user.username}}/delete">Delete
+                User</button>
+        </form>
+    </div>
+
+</div>
+
+<div>
+    {% for feedback in user.feedback %}
+    <div class="card my-4">
+        <div class="card-body">
+            <h4 class="card-title text-info">
+                <span><b>Title:</b> {{feedback.title}} &ensp; </span>
+                {% if session['username'] == feedback.username %}
+                <form style="display:inline">
+                    <button class="btn btn-sm btn-warning" formmethod="GET" formaction="/feedback/{{feedback.id}}/update"><i class="fas fa-edit"></i></button>
+                    <button class="btn btn-sm btn-danger" formmethod="POST" formaction="/feedback/{{feedback.id}}/delete"><i class="fas fa-trash"></i></button>
+                </form>
+                {% endif %}
+            </h4>
+            <p class="card-text">
+                <b>Content: </b>{{feedback.content}}
+            </p>
+
+        </div>
+    </div>
+
+    {% endfor %}
+</div>
+
+{% endblock %}
